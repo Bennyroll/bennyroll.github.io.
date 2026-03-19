@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wanderlust — Travel Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --clay: #c97d4e;
+    --ink: #1a1208;
+    --mist: #e8ddd0;
+    --forest: #2d4a3e;
+    --gold: #d4a844;
+    --sky: #7eb8c9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(245,237,224,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,125,78,0.2);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--forest);
+  }
+  .logo span { color: var(--clay); font-style: italic; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a {
+    text-decoration: none; font-size: 0.85rem;
+    font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink);
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  nav ul a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--forest); color: var(--sand) !important;
+    padding: 0.5rem 1.2rem; border-radius: 100px;
+    opacity: 1 !important;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 3rem 4rem 5rem;
+    animation: fadeUp 1s ease both;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--clay); font-weight: 500;
+    margin-bottom: 1.5rem;
+    padding: 0.3rem 0.9rem; border: 1px solid var(--clay);
+    border-radius: 100px; width: fit-content;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    line-height: 1.05; letter-spacing: -1px;
+    color: var(--ink); margin-bottom: 1.5rem;
+  }
+  .hero h1 em { color: var(--clay); font-style: italic; }
+  .hero p {
+    font-size: 1.1rem; line-height: 1.75;
+    color: var(--ink); opacity: 0.65;
+    max-width: 420px; margin-bottom: 2.5rem;
+  }
+  .btn-group { display: flex; gap: 1rem; align-items: center; }
+  .btn-primary {
+    background: var(--forest); color: var(--sand);
+    padding: 0.85rem 2rem; border-radius: 100px;
+    font-size: 0.9rem; font-weight: 500;
+    text-decoration: none; letter-spacing: 0.04em;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(45,74,62,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(45,74,62,0.4); }
+  .btn-ghost {
+    color: var(--ink); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    display: flex; align-items: center; gap: 0.5rem;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .btn-ghost:hover { opacity: 1; }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+    animation: fadeIn 1.2s ease both 0.3s;
+  }
+  .hero-img-grid {
+    position: absolute; inset: 0;
+    display: grid; grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr; gap: 8px; padding: 8px;
+  }
+  .img-box {
+    border-radius: 12px; overflow: hidden;
+    background: var(--mist);
+  }
+  .img-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .img-box:first-child { grid-row: span 2; border-radius: 16px; }
+
+  .hero-badge {
+    position: absolute; bottom: 3rem; left: -1.5rem;
+    background: var(--gold); color: var(--ink);
+    padding: 1rem 1.5rem; border-radius: 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    font-size: 0.8rem; font-weight: 500;
+  }
+  .hero-badge strong { display: block; font-size: 1.6rem; font-family: 'Playfair Display', serif; }
+
+  /* STATS */
+  .stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: rgba(201,125,78,0.15);
+    border-top: 1px solid rgba(201,125,78,0.15);
+    border-bottom: 1px solid rgba(201,125,78,0.15);
+  }
+  .stat {
+    background: var(--sand);
+    padding: 2rem 2.5rem; text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 700;
+    color: var(--clay);
+  }
+  .stat-label {
+    font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 0.1em; opacity: 0.5; margin-top: 0.2rem;
+  }
+
+  /* DESTINATIONS */
+  .section { padding: 6rem 5rem; }
+  .section-header {
+    display: flex; justify-content: space-between;
+    align-items: flex-end; margin-bottom: 3rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; line-height: 1.1;
+  }
+  .section-title em { color: var(--clay); font-style: italic; }
+  .see-all {
+    color: var(--clay); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    border-bottom: 1px solid var(--clay); padding-bottom: 2px;
+  }
+
+  .dest-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  }
+  .dest-card {
+    border-radius: 20px; overflow: hidden;
+    cursor: pointer; position: relative;
+    aspect-ratio: 3/4;
+    text-decoration: none; display: block;
+    transition: transform 0.35s ease;
+  }
+  .dest-card:hover { transform: translateY(-6px); }
+  .dest-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .dest-card:hover img { transform: scale(1.05); }
+  .dest-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,18,8,0.85) 30%, transparent 70%);
+    display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 2rem;
+    color: var(--sand);
+  }
+  .dest-region {
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; opacity: 0.7;
+    margin-bottom: 0.4rem;
+  }
+  .dest-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700; line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .dest-meta {
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.8rem; opacity: 0.75;
+  }
+  .dest-tag {
+    background: rgba(245,237,224,0.2);
+    padding: 0.2rem 0.6rem; border-radius: 100px;
+    font-size: 0.72rem;
+  }
+
+  /* FEATURED */
+  .featured {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: center;
+    background: var(--forest); color: var(--sand);
+    padding: 6rem 5rem; margin: 0;
+  }
+  .featured-text .tag { color: var(--gold); border-color: var(--gold); }
+  .featured-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; line-height: 1.1;
+    margin: 1rem 0 1.5rem;
+  }
+  .featured-text p { opacity: 0.7; line-height: 1.75; margin-bottom: 2rem; }
+  .featured-img {
+    border-radius: 20px; overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+  .featured-img img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* GUIDES */
+  .guide-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+  }
+  .guide-card {
+    display: flex; gap: 1.5rem;
+    padding: 2rem; border-radius: 16px;
+    border: 1px solid rgba(201,125,78,0.2);
+    text-decoration: none; color: var(--ink);
+    transition: border-color 0.3s, transform 0.3s;
+    background: white;
+  }
+  .guide-card:hover { border-color: var(--clay); transform: translateY(-3px); }
+  .guide-icon {
+    width: 56px; height: 56px; flex-shrink: 0;
+    background: var(--mist); border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+  }
+  .guide-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; margin-bottom: 0.4rem;
+  }
+  .guide-card p { font-size: 0.85rem; opacity: 0.6; line-height: 1.6; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: var(--sand);
+    padding: 4rem 5rem; 
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+  }
+  .footer-brand .logo { color: var(--sand); margin-bottom: 1rem; display: block; }
+  .footer-brand p { font-size: 0.85rem; opacity: 0.5; line-height: 1.7; }
+  footer h4 { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.4; margin-bottom: 1.2rem; }
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 0.7rem; }
+  footer ul a { color: var(--sand); text-decoration: none; font-size: 0.9rem; opacity: 0.7; transition: opacity 0.2s; }
+  footer ul a:hover { opacity: 1; }
+  .footer-bottom {
+    background: var(--ink); color: var(--sand);
+    padding: 1.5rem 5rem; border-top: 1px solid rgba(245,237,224,0.1);
+    font-size: 0.8rem; opacity: 0.4;
+    display: flex; justify-content: space-between;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Wander<span>lust</span></div>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destination.html">Destinations</a></li>
+    <li><a href="#">Guides</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="destination.html" class="nav-cta">Explore Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="tag">✦ Your World Awaits</span>
+    <h1>Discover the<br><em>Stories</em> of<br>Every Place</h1>
+    <p>Curated travel guides crafted by explorers, for explorers. From hidden villages to grand cities — every journey begins here.</p>
+    <div class="btn-group">
+      <a href="destination.html" class="btn-primary">Browse Destinations</a>
+      <a href="#" class="btn-ghost">Watch Stories →</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-grid">
+      <div class="img-box">
+        <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?w=600&q=80" alt="Dubai">
+      </div>
+      <div class="img-box">
+        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80" alt="Alps">
+      </div>
+      <div class="img-box">
+        <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80" alt="Asia">
+      </div>
+    </div>
+    <div class="hero-badge">
+      <strong>240+</strong> destinations listed
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">240+</div><div class="stat-label">Destinations</div></div>
+  <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Countries</div></div>
+  <div class="stat"><div class="stat-num">1.2M</div><div class="stat-label">Travelers</div></div>
+  <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Avg Rating</div></div>
+</div>
+
+<!-- DESTINATIONS -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Top <em>Destinations</em><br>Right Now</h2>
+    <a href="destination.html" class="see-all">View All →</a>
+  </div>
+  <div class="dest-grid">
+    <a href="destination.html" class="dest-card">
+      <img src="https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=600&q=80" alt="Tokyo">
+      <div class="dest-overlay">
+        <div class="dest-region">East Asia</div>
+        <div class="dest-name">Tokyo</div>
+        <div class="dest-meta">
+          <span>🗾 Japan</span>
+          <span class="dest-tag">Culture</span>
+          <span class="dest-tag">Food</span>
+        </div>
+      </div>
+    </a>
+    <a href="destination.html" class="dest-card">
+      <img src="https://images.unsplash.com/photo-1491557345352-5929e343eb89?w=600&q=80" alt="Santorini">
+      <div class="dest-overlay">
+        <div class="dest-region">Southern Europe</div>
+        <div class="dest-name">Santorini</div>
+        <div class="dest-meta">
+          <span>🇬🇷 Greece</span>
+          <span class="dest-tag">Romance</span>
+          <span class="dest-tag">Islands</span>
+        </div>
+      </div>
+    </a>
+    <a href="destination.html" class="dest-card">
+      <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=600&q=80" alt="New York">
+      <div class="dest-overlay">
+        <div class="dest-region">North America</div>
+        <div class="dest-name">New York</div>
+        <div class="dest-meta">
+          <span>🇺🇸 USA</span>
+          <span class="dest-tag">Urban</span>
+          <span class="dest-tag">Arts</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED STORY -->
+<section class="featured">
+  <div class="featured-text">
+    <span class="tag">Featured Story</span>
+    <h2>The Ancient Temples of Kyoto</h2>
+    <p>Step into a world where centuries-old shrines rise among bamboo groves and lantern-lit streets. Our deep-dive guide to Kyoto uncovers the spiritual heart of Japan — beyond the tourist trails.</p>
+    <a href="destination.html" class="btn-primary" style="display:inline-block; background:var(--gold); color:var(--ink);">Read the Guide</a>
+  </div>
+  <div class="featured-img">
+    <img src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800&q=80" alt="Kyoto">
+  </div>
+</section>
+
+<!-- GUIDES -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">Travel <em>Guides</em></h2>
+    <a href="#" class="see-all">All Guides →</a>
+  </div>
+  <div class="guide-grid">
+    <a href="destination.html" class="guide-card">
+      <div class="guide-icon">🎒</div>
+      <div>
+        <h3>Packing Smart for Any Climate</h3>
+        <p>The essential packing list trusted by long-term travelers — from the tropics to the Arctic tundra.</p>
+      </div>
+    </a>
+    <a href="destination.html" class="guide-card">
+      <div class="guide-icon">✈️</div>
+      <div>
+        <h3>Finding Cheap Flights in 2025</h3>
+        <p>Insider tactics and tools for finding deals that the airlines don't want you to know about.</p>
+      </div>
+    </a>
+    <a href="destination.html" class="guide-card">
+      <div class="guide-icon">🍜</div>
+      <div>
+        <h3>Eating Like a Local Everywhere</h3>
+        <p>Skip the tourist traps. Here's how to find the food that locals actually love.</p>
+      </div>
+    </a>
+    <a href="destination.html" class="guide-card">
+      <div class="guide-icon">🏨</div>
+      <div>
+        <h3>Choosing Accommodation Wisely</h3>
+        <p>Hotels, hostels, guesthouses or villas — know exactly what to book and when.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="logo">Wander<span>lust</span></span>
+    <p>Curated travel guides for curious souls. Discover the world, one story at a time.</p>
+  </div>
+  <div>
+    <h4>Explore</h4>
+    <ul>
+      <li><a href="destination.html">Destinations</a></li>
+      <li><a href="#">Guides</a></li>
+      <li><a href="#">Itineraries</a></li>
+      <li><a href="#">Maps</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Careers</a></li>
+      <li><a href="#">Press</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Connect</h4>
+    <ul>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">YouTube</a></li>
+      <li><a href="#">Newsletter</a></li>
+      <li><a href="#">Community</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 Wanderlust Travel Guide</span>
+  <span>Privacy · Terms · Cookies</span>
+</div>
+
+</body>
+</html>

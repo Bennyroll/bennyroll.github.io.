@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokyo, Japan — Wanderlust</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5ede0;
+    --clay: #c97d4e;
+    --ink: #1a1208;
+    --mist: #e8ddd0;
+    --forest: #2d4a3e;
+    --gold: #d4a844;
+    --sky: #7eb8c9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--sand);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(245,237,224,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,125,78,0.2);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--forest); text-decoration: none;
+  }
+  .logo span { color: var(--clay); font-style: italic; }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a {
+    text-decoration: none; font-size: 0.85rem;
+    font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink);
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  nav ul a:hover { opacity: 1; }
+  .nav-back {
+    display: flex; align-items: center; gap: 0.5rem;
+    color: var(--clay) !important; opacity: 1 !important;
+  }
+
+  /* HERO */
+  .dest-hero {
+    height: 90vh; position: relative;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .dest-hero img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,18,8,0.92) 30%, rgba(26,18,8,0.2) 70%, transparent);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 4rem 5rem; color: var(--sand);
+    width: 100%;
+    animation: fadeUp 1s ease both;
+  }
+  .breadcrumb {
+    font-size: 0.78rem; text-transform: uppercase;
+    letter-spacing: 0.12em; opacity: 0.6; margin-bottom: 1rem;
+  }
+  .breadcrumb a { color: var(--sand); text-decoration: none; }
+  .breadcrumb a:hover { opacity: 1; text-decoration: underline; }
+  .hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 700; line-height: 1;
+    letter-spacing: -2px; margin-bottom: 1.2rem;
+  }
+  .hero-meta {
+    display: flex; gap: 2rem; align-items: center;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    background: rgba(245,237,224,0.15);
+    border: 1px solid rgba(245,237,224,0.3);
+    padding: 0.45rem 1rem; border-radius: 100px;
+    font-size: 0.85rem; backdrop-filter: blur(8px);
+  }
+  .rating { color: var(--gold); font-size: 1rem; }
+
+  /* CONTENT LAYOUT */
+  .page-body {
+    display: grid; grid-template-columns: 1fr 340px;
+    gap: 3rem; padding: 4rem 5rem;
+    max-width: 1400px; margin: 0 auto;
+  }
+  .main-col {}
+  .side-col {}
+
+  /* INTRO SECTION */
+  .intro-block {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(201,125,78,0.15);
+    margin-bottom: 2.5rem;
+  }
+  .section-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--clay);
+    font-weight: 600; margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .section-eyebrow::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(201,125,78,0.3); max-width: 60px;
+  }
+  .intro-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; margin-bottom: 1.2rem;
+    line-height: 1.2;
+  }
+  .intro-block p {
+    font-size: 1rem; line-height: 1.85;
+    color: var(--ink); opacity: 0.75;
+    margin-bottom: 1rem;
+  }
+
+  /* HIGHLIGHTS */
+  .highlights {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    margin-bottom: 3rem;
+  }
+  .highlight-card {
+    background: white; border-radius: 16px;
+    overflow: hidden; position: relative;
+  }
+  .highlight-card img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block;
+  }
+  .highlight-card .caption {
+    padding: 1rem 1.2rem;
+  }
+  .highlight-card .caption h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; margin-bottom: 0.2rem;
+  }
+  .highlight-card .caption p {
+    font-size: 0.8rem; opacity: 0.6; line-height: 1.5;
+  }
+
+  /* THINGS TO DO */
+  .things { margin-bottom: 3rem; }
+  .things h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; margin-bottom: 1.5rem;
+  }
+  .thing-item {
+    display: flex; gap: 1.2rem;
+    padding: 1.5rem 0; align-items: flex-start;
+    border-bottom: 1px solid rgba(201,125,78,0.1);
+  }
+  .thing-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem; font-weight: 700;
+    color: var(--clay); opacity: 0.3;
+    line-height: 1; min-width: 2.5rem;
+  }
+  .thing-text h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; margin-bottom: 0.4rem;
+  }
+  .thing-text p { font-size: 0.9rem; opacity: 0.65; line-height: 1.7; }
+  .thing-tag {
+    display: inline-block; margin-top: 0.6rem;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--mist); padding: 0.25rem 0.7rem; border-radius: 100px;
+    color: var(--clay); font-weight: 500;
+  }
+
+  /* PHOTO STRIP */
+  .photo-strip {
+    display: flex; gap: 1rem; overflow-x: auto;
+    padding-bottom: 1rem; margin-bottom: 3rem;
+    scrollbar-width: thin;
+  }
+  .photo-strip img {
+    height: 220px; width: auto; border-radius: 14px;
+    flex-shrink: 0; object-fit: cover;
+  }
+
+  /* SIDEBAR */
+  .sidebar-card {
+    background: white; border-radius: 20px;
+    padding: 2rem; margin-bottom: 1.5rem;
+    border: 1px solid rgba(201,125,78,0.1);
+    position: sticky; top: 6rem;
+  }
+  .sidebar-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--mist);
+  }
+  .info-row {
+    display: flex; justify-content: space-between;
+    align-items: center; padding: 0.7rem 0;
+    border-bottom: 1px solid var(--mist);
+    font-size: 0.88rem;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { opacity: 0.5; }
+  .info-val { font-weight: 500; text-align: right; }
+  .best-months {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .month-pill {
+    font-size: 0.72rem; padding: 0.2rem 0.6rem;
+    border-radius: 100px; background: var(--mist);
+  }
+  .month-pill.best { background: var(--forest); color: var(--sand); }
+  .btn-full {
+    width: 100%; padding: 1rem;
+    background: var(--clay); color: white;
+    border: none; border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    cursor: pointer; margin-top: 1.2rem;
+    transition: background 0.2s;
+    text-decoration: none; display: block; text-align: center;
+  }
+  .btn-full:hover { background: var(--forest); }
+  .btn-outline {
+    width: 100%; padding: 0.85rem;
+    background: transparent; color: var(--forest);
+    border: 1.5px solid var(--forest); border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; margin-top: 0.7rem;
+    transition: all 0.2s;
+    text-decoration: none; display: block; text-align: center;
+  }
+  .btn-outline:hover { background: var(--forest); color: var(--sand); }
+
+  /* PRACTICAL TIPS */
+  .tips { margin-bottom: 3rem; }
+  .tips h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1.5rem; }
+  .tip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .tip-box {
+    background: white; border-radius: 16px;
+    padding: 1.5rem; border: 1px solid rgba(201,125,78,0.1);
+  }
+  .tip-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+  .tip-box h4 { font-weight: 600; margin-bottom: 0.4rem; font-size: 0.95rem; }
+  .tip-box p { font-size: 0.85rem; opacity: 0.6; line-height: 1.6; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">Wander<span>lust</span></a>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destination.html">Destinations</a></li>
+    <li><a href="#">Guides</a></li>
+    <li><a href="index.html" class="nav-back">← Back to Index</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="dest-hero">
+  <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1600&q=85" alt="Tokyo">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a> · <a href="#">Asia</a> · Tokyo</div>
+    <h1>Tokyo</h1>
+    <div class="hero-meta">
+      <span class="meta-pill">🗾 Japan</span>
+      <span class="meta-pill">East Asia</span>
+      <span class="meta-pill rating">★ 4.9 · 3,200 reviews</span>
+      <span class="meta-pill">🕐 Best: Mar – May, Oct – Nov</span>
+    </div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="page-body">
+  <main class="main-col">
+
+    <!-- INTRO -->
+    <div class="intro-block">
+      <div class="section-eyebrow">Overview</div>
+      <h2>Where Tradition Meets the Future</h2>
+      <p>Tokyo is a city of magnificent contradictions — ancient temples tucked between gleaming skyscrapers, whispering tea ceremonies steps from thundering train stations. Japan's capital is not just a destination; it's an education in a culture so refined, so layered, that even a month feels like a preview.</p>
+      <p>From the electric chaos of Shibuya Crossing to the serene bamboo paths of Arashiyama (a short train ride to Kyoto), Tokyo rewards the curious traveler with endless discovery.</p>
+    </div>
+
+    <!-- PHOTO HIGHLIGHTS -->
+    <div style="margin-bottom:2.5rem;">
+      <div class="section-eyebrow">Highlights</div>
+      <div class="highlights">
+        <div class="highlight-card">
+          <img src="https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?w=600&q=80" alt="Shibuya">
+          <div class="caption">
+            <h4>Shibuya Crossing</h4>
+            <p>The world's busiest pedestrian crossing — pure Tokyo energy</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <img src="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=600&q=80" alt="Senso-ji">
+          <div class="caption">
+            <h4>Senso-ji Temple</h4>
+            <p>Tokyo's oldest temple, glowing amber at dusk</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <img src="https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=600&q=80" alt="Ramen">
+          <div class="caption">
+            <h4>Ramen Culture</h4>
+            <p>Each bowl a philosophy, each shop a legend</p>
+          </div>
+        </div>
+        <div class="highlight-card">
+          <img src="https://images.unsplash.com/photo-1506469717960-433cebe3f181?w=600&q=80" alt="Cherry Blossoms">
+          <div class="caption">
+            <h4>Sakura Season</h4>
+            <p>Cherry blossoms transform parks into pink dreamscapes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO STRIP -->
+    <div class="photo-strip">
+      <img src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=400&q=80" alt="Tokyo streets">
+      <img src="https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=400&q=80" alt="Tokyo night">
+      <img src="https://images.unsplash.com/photo-1551641506-ee5bf4cb45f1?w=400&q=80" alt="Sushi">
+      <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?w=400&q=80" alt="Akihabara">
+      <img src="https://images.unsplash.com/photo-1548872591-03ded7e6c1a4?w=400&q=80" alt="Mount Fuji">
+    </div>
+
+    <!-- THINGS TO DO -->
+    <div class="things">
+      <div class="section-eyebrow">Things To Do</div>
+      <h2>Must-Do Experiences</h2>
+      <div class="thing-item">
+        <div class="thing-num">01</div>
+        <div class="thing-text">
+          <h4>Watch Dawn at Tsukiji Fish Market</h4>
+          <p>Arrive before 5am to witness the legendary tuna auctions (now at Toyosu) and sample the freshest sushi breakfast of your life from the outer market stalls.</p>
+          <span class="thing-tag">Food & Culture</span>
+        </div>
+      </div>
+      <div class="thing-item">
+        <div class="thing-num">02</div>
+        <div class="thing-text">
+          <h4>Explore Harajuku on a Sunday</h4>
+          <p>Takeshita Street bursts with Japan's legendary fashion subcultures — Lolita, Gyaru, Decora and beyond. Arrive mid-morning when the street comes alive.</p>
+          <span class="thing-tag">Fashion & Street Life</span>
+        </div>
+      </div>
+      <div class="thing-item">
+        <div class="thing-num">03</div>
+        <div class="thing-text">
+          <h4>Day Trip to Nikko</h4>
+          <p>A 2-hour train ride north brings you to ornate Edo-era shrines surrounded by cedar forests. The Toshogu Shrine complex is jaw-dropping in its gilded excess.</p>
+          <span class="thing-tag">Day Trip · History</span>
+        </div>
+      </div>
+      <div class="thing-item">
+        <div class="thing-num">04</div>
+        <div class="thing-text">
+          <h4>Take a Sake Tasting in Yanaka</h4>
+          <p>The preserved old-town neighborhood of Yanaka feels like Edo-era Tokyo. Wander its shotengai shopping street and stop into a sake specialist bar.</p>
+          <span class="thing-tag">Drinks · Neighborhoods</span>
+        </div>
+      </div>
+      <div class="thing-item">
+        <div class="thing-num">05</div>
+        <div class="thing-text">
+          <h4>Teamlab Planets or Borderless</h4>
+          <p>Tokyo's immersive digital art museums are unlike anything on earth. Walk through rooms of infinite light, water, and flowers that respond to your movements.</p>
+          <span class="thing-tag">Art · Experience</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRACTICAL TIPS -->
+    <div class="tips">
+      <div class="section-eyebrow">Practical Tips</div>
+      <h2>Before You Go</h2>
+      <div class="tip-grid">
+        <div class="tip-box">
+          <div class="tip-icon">💴</div>
+          <h4>Money & Payments</h4>
+          <p>Japan is still largely cash-based. Get yen from a 7-Eleven ATM. IC cards like Suica work on all trains and many convenience stores.</p>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">🚇</div>
+          <h4>Getting Around</h4>
+          <p>The train network is world-class and intimidating. Use Google Maps, buy a Suica card, and don't be afraid to ask — locals are genuinely helpful.</p>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">🗣️</div>
+          <h4>Language</h4>
+          <p>English signage is excellent in central Tokyo. Learning 5–10 Japanese phrases earns immense goodwill. Google Translate's camera mode is invaluable.</p>
+        </div>
+        <div class="tip-box">
+          <div class="tip-icon">🏩</div>
+          <h4>Where to Stay</h4>
+          <p>Stay in Shinjuku, Shibuya, or Asakusa for central access. Try a traditional ryokan for at least one night — the full experience includes yukata robes and multi-course kaiseki dinner.</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="side-col">
+    <div class="sidebar-card">
+      <h3>Quick Facts</h3>
+      <div class="info-row">
+        <span class="info-label">Country</span>
+        <span class="info-val">Japan 🗾</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Region</span>
+        <span class="info-val">Kanto, Honshu</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Currency</span>
+        <span class="info-val">Japanese Yen (¥)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Language</span>
+        <span class="info-val">Japanese</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Time Zone</span>
+        <span class="info-val">JST (UTC+9)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Avg. Budget</span>
+        <span class="info-val">$80–180/day</span>
+      </div>
+      <div class="info-row" style="flex-direction:column; align-items:flex-start;">
+        <span class="info-label" style="margin-bottom:0.5rem;">Best Months to Visit</span>
+        <div class="best-months">
+          <span class="month-pill">Jan</span>
+          <span class="month-pill">Feb</span>
+          <span class="month-pill best">Mar</span>
+          <span class="month-pill best">Apr</span>
+          <span class="month-pill best">May</span>
+          <span class="month-pill">Jun</span>
+          <span class="month-pill">Jul</span>
+          <span class="month-pill">Aug</span>
+          <span class="month-pill">Sep</span>
+          <span class="month-pill best">Oct</span>
+          <span class="month-pill best">Nov</span>
+          <span class="month-pill">Dec</span>
+        </div>
+      </div>
+      <a href="#" class="btn-full">Plan My Tokyo Trip</a>
+      <a href="#" class="btn-outline">Save to Wishlist</a>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Nearby Destinations</h3>
+      <div class="info-row">
+        <span>🏯 Kyoto</span>
+        <span class="info-val" style="color:var(--clay)">2.5h → by Shinkansen</span>
+      </div>
+      <div class="info-row">
+        <span>⛩️ Nikko</span>
+        <span class="info-val" style="color:var(--clay)">2h → by train</span>
+      </div>
+      <div class="info-row">
+        <span>🗻 Mt. Fuji</span>
+        <span class="info-val" style="color:var(--clay)">2h → by bus</span>
+      </div>
+      <div class="info-row">
+        <span>🦌 Nara</span>
+        <span class="info-val" style="color:var(--clay)">3h → by train</span>
+      </div>
+      <div class="info-row">
+        <span>🌸 Hakone</span>
+        <span class="info-val" style="color:var(--clay)">1.5h → by train</span>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+</body>
+</html>
